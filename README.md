@@ -1,12 +1,10 @@
 # 小游戏合集
-无需安装的经典浏览器小游戏，可通过CDN链接直接访问。
+可通过CDN链接访问。
 
 ## 🎮 游戏列表
 | 游戏名称 | 访问链接 | 玩法说明 |
 |-----------|-------------|-------------|
-| Match 3（消消乐） | https://cdn.jsdelivr.net/gh/3114352309/mini-games-collection@main/games/xiaoxiaole/xiaoxiaole.html | 点击相邻方块交换位置，3个及以上同色方块连成一线即可消除得分 |
+| Match 3（消消乐） | [https://cdn.jsdelivr.net/gh/3114352309/mini-games-collection@main/games/xiaoxiaole/xiaoxiaole.html](https://raw.githubusercontent.com/3114352309/mini-games-collection/refs/heads/main/games/xiaoxiaole/xiaoxiaole.html) | 点击相邻方块交换位置，3个及以上同色方块连成一线即可消除得分 |
 
 ## 📌 使用说明
-1. 点击上方的「访问链接」即可直接打开游戏；
-2. 手机端：点击操作 | 电脑端：鼠标点击操作；
-3. 点击游戏内的「重新开始」按钮可重置游戏。
+
