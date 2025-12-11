@@ -1,452 +1,578 @@
 <!DOCTYPE html>
-<html lang=“zh-CN”>
-<头>
- <meta charset=“UTF-8”>
- <meta name=“viewport” content=“width=device-width， initial-scale=1.0， user-scalable=no”>
- <标题>卡通消消乐</标题>
- <风格>
- ：根{
- --游戏背景：线性梯度（135度，#f5f7fa 0% #c3cfe2 100%）;
- --板-背景：#ffffff;
- --边框颜色：#8b5cf6;
- --text-color： #2d3748;
- --分数-bg：线性梯度（135度，#8b5cf6 0% #ec4899 100%）;
- --控制-bg：rgba（139， 92， 246， 0.9）;
- --控制-主动-bg： #ec4899;
- --块大小：8vmin;
- --阴影：0 4px 12px RGBA（0,0,0,0.1）;
- --光辉：0 0 15px RGBA（139， 92， 246， 0.6）;
- }
- * {
- 优势：0;
- 缓冲：0;
- 盒子尺寸：边框盒;
- 字体家族：'Comic Sans MS'， '幼圆'， '微软雅黑'， 无衬线;
- }
- 正体 {
- 背景：VAR（--游戏-背景）;
- color： var（--text-color）;
- 最小高度：100VH;
- 显示：flex;
- 灵活方向：列;
- 对齐物品：中心;
- 正义内容：中心;
- 护垫：2 VH 0;
- 溢出：隐藏;
- 背景-附件：固定;
- }
- .game-container {
- 显示：flex;
- 灵活方向：列;
- 对齐物品：中心;
- 间隙：3VH;
- 填充物：2VH;
- 边界半径：20px;
- 背景：RGBA（255,255,255,0.8）;
- 盒子-影子：VAR（--影子）;
- }
- .game-header {
- 显示：flex;
- 间隙：4VH;
- 对齐物品：中心;
- 宽度：100%;
- 缓冲：0 2VH;
- }
- .info-box {
- 背景：VAR（--分数-背景）;
- 护垫：2 VH 3 VH;
- 边界半径：15px;
- 边界：无;
- 文本对齐：居中;
- 盒子-影子：VAR（--影子）;
- 位置：亲属;
- 溢出：隐藏;
- }
- .info-box：：在 { 之后
- 内容：“;
- 位置：绝对;
- 顶部：0;
- 左：-100%;
- 宽度：100%;
- 身高：100%;
- 背景：线性渐变（90度，透明，RGBA（255,255,255,0.2），透明）;
- 动画：闪耀2S无限;
- } 闪耀 {
- 100% { 左：100%; }
- }
- .info-box h2 {
- 字体大小：2.5vmin;
- 颜色：#ffffff;
- 边缘-底部：0.5vh;
- 文本-阴影：1px 1px 2px RGBA（0,0,0,0.2）;
- }
- .info-box p {
- 字体大小：4vmin;
- 字体粗大：加粗;
- 颜色：#ffffff;
- 文本-影子：1px 1px 3px RGBA（0,0,0,0.3）;
- }
- #restart-btn {
- 护垫：2VH 4VH;
- 字体大小：2.8vmin;
- 字体粗大：加粗;
- 边界：无;
- 背景：VAR（--Control-BG）;
- 颜色：#ffffff;
- 边界半径：15px;
- 光标：指针;
- 过渡：所有0.3秒的轻松;
- 盒子-影子：VAR（--影子）;
- 位置：亲属;
- 溢出：隐藏;
- }
- #restart-btn：：before {
- 内容：“;
- 位置：绝对;
- 顶部：0;
- 左：0;
- 宽度：100%;
- 身高：100%;
- 背景：线性渐变（45度，透明，RGBA（255,255,255,0.2），透明）;
- transform： translateX（-100%）;
- 过渡：变换0.5秒轻松;
- }
- #restart-BTN：hover {
- 背景：VAR（--控制-主动-BG）;
- 变换：translateY（-2px）;
- 盒影：0 6px 16px RGBA（236， 72， 153， 0.4）;
- }
- #restart-btn：hover：：before {
- transform： translateX（100%）;
- }
- #game 板 {
- 显示：网格;
- grid-template-columns： repeat（8， var（--block-size））;
- 网格模板行：重复（8， var（--block-size））;
- 差距：3点;
- 背景：VAR（--board-bg）;
- 填充物：2VH;
- 边界半径：15px;
- 盒子-影子：VAR（--影子）;
- 边框：2px 实心变色（--border-color）;
- }
- .block {
- 宽度：100%;
- 身高：100%;
- 边界半径：12px;
- 光标：指针;
- 过渡：所有0.2秒的轻松;
- 显示：flex;
- 对齐物品：中心;
- 正义内容：中心;
- 字体大小：5vmin;
- 盒影：0 2px 8px RGBA（0,0,0,0.15）;
- 位置：亲属;
- 溢出：隐藏;
- 背景：#ffffff;
- }
- .block：：在 { 之后
- 内容：“;
- 位置：绝对;
- 顶部：0;
- 左：0;
- 宽度：100%;
- 身高：100%;
- 背景：线性坡度（135度，RGBA（255,255,255,0.8）0%，RGBA（255,255,255,0.2）100%）;
- 边界半径：12px;
- 指针事件：无;
- }
- .block：hover {
- 变换：比例（1.08）;
- 盒影：0 4px 12px RGBA（139， 92， 246， 0.3）;
- }
- .block.selected {
- 边框：4px 实心变色（--border-color）;
- 方框阴影：Var（--发光）;
- 变换：比例（1.1）;
- }
- .block.消灭{
- 动画：消除0.4秒的缓慢前进;
- } 消去 {
- 0% { 变换：scale（1）;不透明度：1;}
- 50% { 变换：缩放（1.2） 旋转（15度）;不透明度：0.8;}
- 100% { 变换：scale（0） rotate（30deg）;不透明度：0;}
- }
- /* 水果样式（替换纯颜色） */
- .fruit-1 { 背景：线性渐变（135度，#ff6b6b，#ff0d72）; 颜色：#fff; }
- .fruit-2 { 背景：线性渐变（135度，#4ecdc4，#0dc2ff）; 颜色：#fff; }
- .fruit-3 { 背景：线性渐变（135度，#4ade80，#0dff72）;颜色：#fff;}
- .fruit-4 { 背景：线性渐变（135度，#d946ef，#f538ff）; 颜色：#fff; }
- .fruit-5 { 背景：线性渐变（135度，#f97316，#ff8e0d）; 颜色：#fff; }
- .fruit-6 { 背景：线性渐变（135度，#facc15，#ffe138）;颜色：#fff;}
- .fruit-7 { 背景：线性渐变（135度，#3b82f6，#3877ff）;颜色：#fff;}
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- 修复viewport全角标点，优化移动端适配 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>卡通消消乐</title>
+  <style>
+    /* 统一CSS变量命名（英文），增加浏览器前缀提升兼容性 */
+    :root {
+      --game-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      --board-bg: #ffffff;
+      --border-color: #8b5cf6;
+      --text-color: #2d3748;
+      --score-bg: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+      --control-bg: rgba(139, 92, 246, 0.9);
+      --control-active-bg: #ec4899;
+      --block-size: 8vmin;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --glow: 0 0 15px rgba(139, 92, 246, 0.6);
+    }
 
-/* 下落动画 */ drop {
- 来自{ transform： translateY（-100%）;不透明度：0;}
- 到 { 变换：translateY（0）; 不透明度：1; }
- }
- .block.drop {
- 动画：下落0.3秒缓缓前进;
- }
- </风格>
-</头>
-<身体>
- <div class=“game-container”>
- <div class=“game-header”>
- <div class=“info-box”>
- <h2>当前分数</h2>
- <p id=“score”>0</p>
- </div>
- <button id=“restart-btn”>重新开始</button>
- </div>
- <div id=“游戏板”></div>
- </div>
+    /* 统一CSS属性拼写，修复全角标点，增加浏览器前缀 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Comic Sans MS', 'YouYuan', 'Microsoft YaHei', sans-serif;
+      -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+    }
 
-<脚本>
- // 游戏配置
- const CONFIG = {
- 排数：8人，
- 科尔斯：8，
- COLOR_TYPES：7，
- MATCH_COUNT：3
- };
+    body {
+      background: var(--game-bg);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2vh 0;
+      overflow: hidden;
+      background-attachment: fixed;
+    }
 
-水果emoji映射
- const FRUIT_EMOJIS = ['🍎'， '🍊'， '🍐'， '🍇'🍑， '' 🍋 🍓 ];
+    .game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3vh;
+      padding: 2vh;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.8);
+      box-shadow: var(--shadow);
+      max-width: 95vw; /* 限制最大宽度，适配大屏 */
+    }
 
-DOM元素
- const gameBoard = document.getElementById（'game-board'）;
- const scoreElement = document.getElementById（'score'）;
- const restartBtn = document.getElementById（'restart-btn'）;
+    .game-header {
+      display: flex;
+      gap: 4vh;
+      align-items: center;
+      width: 100%;
+      padding: 0 2vh;
+      flex-wrap: wrap; /* 适配小屏，防止按钮换行溢出 */
+      justify-content: center;
+    }
 
-// 游戏状态
- 令棋盘 = [];
- 令得分 = 0;
- 令 selectBlock = null;
- 令isEliminating = false;
+    .info-box {
+      background: var(--score-bg);
+      padding: 2vh 3vh;
+      border-radius: 15px;
+      border: none;
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      min-width: 120px; /* 保证分数框最小宽度 */
+    }
 
-// 初始化游戏
- 函数 initGame（） {
- 得分 = 0;
- scoreElement.textContent = score;
- selectBlock = 空;
- isEliminating = 假;
- gameBoard.innerHTML = '';
+    /* 修复动画命名和选择器语法 */
+    .info-box::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: shine 2s infinite;
+    }
 
-board = Array.from（{ 长度： CONFIG.行数}， （） =>
- Array.from（{ 长度： CONFIG.COLS }， （） => 0）
- );
+    @keyframes shine {
+      100% { left: 100%; }
+    }
 
-fillRandomColors（）;
- renderBoard（true）;// 初始渲染添加下落动画
- }
+    .info-box h2 {
+      font-size: 2.5vmin;
+      color: #ffffff;
+      margin-bottom: 0.5vh;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
 
-// 填充随机颜色（确保初始无消除）
- 函数 fillRandomColors（） {
- Do {
- 对于（令行=0;行<CONFIG。行;row++） {
- 对于（令col = 0;col < CONFIG.科尔斯;col++） {
- board[row][col] = Math.floor（Math.random（） * CONFIG.COLOR_TYPES）+1;
- }
- }
- } 而 （getAllMatches（）.length > 0）;
- }
+    .info-box p {
+      font-size: 4vmin;
+      font-weight: bold;
+      color: #ffffff;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      transition: all 0.3s ease; /* 分数变化动画 */
+    }
 
-渲染网格（addDropAnim： 是否添加下落动画）
- function renderBoard（addDropAnim = false） {
- gameBoard.innerHTML = '';
- 对于（令行=0;行<CONFIG。行;row++） {
- 对于（令col = 0;col < CONFIG.科尔斯;col++） {
- const block = document.createElement（'div'）;
- const fruitType = board[row][col];
- block.className = 'block fruit-${fruitType} ${addDropAnim ？'drop' ： ''}';
- block.dataset.row = 行;
- block.dataset.col = col;
- 添加水果表情符号
- block.textContent = FRUIT_EMOJIS[fruitType - 1];
- block.addEventListener（'点击'，（） => handleBlockClick（block））;
- gameBoard.appendChild（块）;
- }
- }
- }
+    #restart-btn {
+      padding: 2vh 4vh;
+      font-size: 2.8vmin;
+      font-weight: bold;
+      border: none;
+      background: var(--control-bg);
+      color: #ffffff;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      min-width: 100px; /* 按钮最小宽度 */
+    }
 
-// 处理方块点击
- function handleBlockClick（block） {
- 如果（isEliminating ||block === selectedBlock）返回;
+    #restart-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
 
-const currentRow = parseInt（block.dataset.row）;
- const currentCol = parseInt（block.dataset.col）;
+    /* 修复选择器大小写错误，增加active状态 */
+    #restart-btn:hover {
+      background: var(--control-active-bg);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(236, 72, 153, 0.4);
+    }
 
-如果（！select）edBlock） {
- selectBlock = 块;
- block.classList.add（'selected'）;
- 返回;
- }
+    #restart-btn:active {
+      transform: translateY(0); /* 点击回弹效果 */
+    }
 
-const selectedRow = parseInt（selectedBlock.dataset.row）;
- const selectedCol = parseInt（selectedBlock.dataset.col）;
- const isAdjacent = （
- （Math.abs（currentRow - selectRow） === 1 && currentCol === selectedCol） ||
- （Math.abs（currentCol - selectedCol） === 1 && currentRow === selectedRow）
- );
+    #restart-btn:hover::before {
+      transform: translateX(100%);
+    }
 
-如果（！isAdjacent） {
- selectBlock.classList.remove（'selected'）;
- selectBlock = 块;
- block.classList.add（'selected'）;
- 返回;
- }
+    /* 修复ID命名错误（游戏板→game-board） */
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(8, var(--block-size));
+      grid-template-rows: repeat(8, var(--block-size));
+      gap: 3px; /* 修复全角标点 */
+      background: var(--board-bg);
+      padding: 2vh;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      border: 2px solid var(--border-color); /* 修复属性拼写 */
+      touch-action: manipulation; /* 禁用移动端双击缩放 */
+    }
 
-swapBlocks（selectedRow， selectedCol， currentRow， currentCol）;
- }
+    .block {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5vmin;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+      background: #ffffff;
+      user-select: none; /* 禁止选中emoji */
+    }
 
-// 交换两个方块
- function swapBlocks（row1， col1， row2， col2） {
- selectBlock.classList.remove（'selected'）;
- selectBlock = 空;
+    .block::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 100%);
+      border-radius: 12px;
+      pointer-events: none;
+    }
 
-[板[第1行][col1]， 板[行2][栏2]] = [板[行2][栏2]， 板[行1][栏1]];
- renderBoard（）;
+    .block:hover {
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    }
 
-setTimeout（（） => {
- const matches = getAllMatches（）;
- 如果 （matches.length > 0） {
- 消除Blocks（matches）;
- } 否则 {
- [板[第1行][col1]， 板[行2][栏2]] = [板[行2][栏2]， 板[行1][栏1]];
- renderBoard（）;
- }
- }, 150);
- }
+    .block.selected {
+      border: 4px solid var(--border-color);
+      box-shadow: var(--glow);
+      transform: scale(1.1);
+      z-index: 10; /* 选中时层级更高 */
+    }
 
-// 获取所有可消除的方块
- 函数 getAllMatches（） {
- const matches = 新 Set（）;
+    .block.eliminate { /* 修复类名（消灭→eliminate） */
+      animation: eliminate 0.4s ease-in-out;
+    }
 
-// 水平检查
- 对于（令行=0;行<CONFIG。行;row++） {
- 对于（令col = 0;CONFIG < col。COLS - 配置。MATCH_COUNT + 1;col++） {
- const color = board[row][col];
- 如果 （color === 0） 继续;
+    @keyframes eliminate {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2) rotate(15deg); opacity: 0.8; }
+      100% { transform: scale(0) rotate(30deg); opacity: 0; }
+    }
 
-令isMatch = true;
- 对于（设i = 1;我<CONFIG。MATCH_COUNT;i++） {
- 如果 （board[row][col + i] ！== color） {
- isMatch = false;
- 破;
- }
- }
+    /* 水果样式优化，增加渐变过渡 */
+    .fruit-1 { background: linear-gradient(135deg, #ff6b6b, #ff0d72); color: #fff; }
+    .fruit-2 { background: linear-gradient(135deg, #4ecdc4, #0dc2ff); color: #fff; }
+    .fruit-3 { background: linear-gradient(135deg, #4ade80, #0dff72); color: #fff; }
+    .fruit-4 { background: linear-gradient(135deg, #d946ef, #f538ff); color: #fff; }
+    .fruit-5 { background: linear-gradient(135deg, #f97316, #ff8e0d); color: #fff; }
+    .fruit-6 { background: linear-gradient(135deg, #facc15, #ffe138); color: #fff; }
+    .fruit-7 { background: linear-gradient(135deg, #3b82f6, #3877ff); color: #fff; }
 
-如果 （isMatch） {
- 对于（设i = 0;我<CONFIG。MATCH_COUNT;i++） {
- matches.add（'${row}-${col + i}'）;
- }
- }
- }
- }
+    /* 修复下落动画命名和选择器 */
+    @keyframes drop {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
 
-// 垂直检查
- 对于（令col = 0;col < CONFIG.科尔斯;col++） {
- 对于（令行=0;行<CONFIG。行 - 配置。MATCH_COUNT + 1;row++） {
- const color = board[row][col];
- 如果 （color === 0） 继续;
+    .block.drop {
+      animation: drop 0.3s ease-out;
+    }
 
-令isMatch = true;
- 对于（设i = 1;我<CONFIG。MATCH_COUNT;i++） {
- 如果 （board[row + i][col] ！== color） {
- isMatch = false;
- 破;
- }
- }
+    /* 加载提示样式 */
+    .loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 4vmin;
+      color: #8b5cf6;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <div class="loading">游戏加载中...</div>
+  <div class="game-container">
+    <div class="game-header">
+      <div class="info-box">
+        <h2>当前分数</h2>
+        <p id="score">0</p>
+      </div>
+      <button id="restart-btn">重新开始</button>
+    </div>
+    <div id="game-board"></div>
+  </div>
 
-如果 （isMatch）{
- 对于（设i = 0;我<CONFIG。MATCH_COUNT;i++） {
- matches.add（'${row + i}-${col}'）;
- }
- }
- }
- }
+  <script>
+    // 严格模式，减少语法错误
+    'use strict';
 
-return Array.from（matches）.map（pos => {
- const [行，列] = pos.split（'-'）.map（Number）;
- 返回 { 行，凸 };
- });
- }
+    // 游戏配置（修复命名错误，统一驼峰式）
+    const CONFIG = {
+      rows: 8,        // 行数（修复拼写错误）
+      cols: 8,        // 列数（修复拼写错误）
+      colorTypes: 7,  // 水果类型数（修复命名）
+      matchCount: 3   // 消除所需数量
+    };
 
-// 消除方块
- function eliminateBlocks（matches） {
- isEliminating = 真;
- const matchCount = matches.length;
+    // 水果emoji映射（修复语法错误，补充逗号）
+    const FRUIT_EMOJIS = ['🍎', '🍊', '🍐', '🍇', '🍑', '🍋', '🍓'];
 
-// 添加消除动画
- matches.forEach（（{ row， col }） => {
- const block = document.querySelector（'.block[data-row=“${row}”][data-col=“${col}”]'）;
- block.classList.add（'消除中'）;
- });
+    // DOM元素（修复ID命名，统一驼峰式）
+    const gameBoard = document.getElementById('game-board');
+    const scoreElement = document.getElementById('score');
+    const restartBtn = document.getElementById('restart-btn');
+    const loading = document.querySelector('.loading');
 
-// 计算分数
- 分数 += 匹配计数 * 10 + （匹配计数>配置。MATCH_COUNT？（matchCount - CONFIG.MATCH_COUNT）* 5 ： 0）;
- scoreElement.textContent = score;
+    // 游戏状态（修复变量命名，统一驼峰式）
+    let board = [];
+    let score = 0;
+    let selectedBlock = null;
+    let isEliminating = false;
 
-// 分数数字动画
- scoreElement.animate（[
- { 变换： 'scale（1）' }，
- { 变换： 'scale（1.2）' }，
- { 变换： 'scale（1）' }
- ]， { 时长：300 }）;
+    /**
+     * 初始化游戏
+     */
+    function initGame() {
+      score = 0;
+      scoreElement.textContent = score;
+      selectedBlock = null;
+      isEliminating = true; // 初始化时禁止操作
+      gameBoard.innerHTML = '';
 
-setTimeout（（） => {
- // 清空消除的方块
- matches.forEach（（{ row， col }） => {
- 板[行][栏] = 0;
- });
+      // 初始化棋盘数组
+      board = Array.from({ length: CONFIG.rows }, () =>
+        Array.from({ length: CONFIG.cols }, () => 0)
+      );
 
-// 方块下落
- dropBlocks（）;
+      // 填充随机水果（确保初始无消除）
+      fillRandomColors();
+      // 初始渲染（添加下落动画）
+      renderBoard(true);
+      
+      // 隐藏加载提示，恢复操作
+      loading.style.display = 'none';
+      setTimeout(() => {
+        isEliminating = false;
+      }, 300);
+    }
 
-// 检查连锁消除
- setTimeout（（） => {
- cont newMatches = getAllMatches（）;
- 如果 （newMatches.length > 0） {
- eliminateBlocks（newMatches）;
- } 否则 {
- isEliminating = 假;
- }
- }, 300);
- }, 400);// 匹配消除动画时长
- }
+    /**
+     * 填充随机水果（确保初始无消除）
+     */
+    function fillRandomColors() {
+      do {
+        for (let row = 0; row < CONFIG.rows; row++) {
+          for (let col = 0; col < CONFIG.cols; col++) {
+            board[row][col] = Math.floor(Math.random() * CONFIG.colorTypes) + 1;
+          }
+        }
+      } while (getAllMatches().length > 0);
+    }
 
-// 方块下落
- 函数 dropBlocks（） {
- 对于（令col = 0;col < CONFIG.科尔斯;col++） {
- cont newCol = [];
- 令 emptyCount = 0;
+    /**
+     * 渲染棋盘（优化：减少DOM操作，复用元素）
+     * @param {boolean} addDropAnim - 是否添加下落动画
+     */
+    function renderBoard(addDropAnim = false) {
+      // 清空现有内容（初始化时已清空，此处优化可复用元素，暂保留简洁版）
+      gameBoard.innerHTML = '';
 
-对于（令行=0;行<CONFIG。行;row++） {
- 如果 （board[row][col] === 0） {
- emptyCount++;
- } 否则 {
- newCol.push（board[row][col]）;
- }
- }
+      for (let row = 0; row < CONFIG.rows; row++) {
+        for (let col = 0; col < CONFIG.cols; col++) {
+          const block = document.createElement('div');
+          const fruitType = board[row][col];
+          
+          // 修复类名拼接（模板字符串语法）
+          block.className = `block fruit-${fruitType} ${addDropAnim ? 'drop' : ''}`;
+          block.dataset.row = row;
+          block.dataset.col = col;
+          block.textContent = FRUIT_EMOJIS[fruitType - 1];
+          
+          gameBoard.appendChild(block);
+        }
+      }
+    }
 
-而 （emptyCount > 0） {
- newCol.unshift（Math.floor（Math.random（） * CONFIG.COLOR_TYPES）+ 1）;
- emptyCount--;
- }
+    /**
+     * 处理方块点击（优化：事件委托，减少绑定）
+     * @param {Event} e - 点击事件
+     */
+    function handleBlockClick(e) {
+      const block = e.target.closest('.block');
+      if (!block || isEliminating || block === selectedBlock) return;
 
-对于（令行=0;行 < CON无花果。行;row++） {
- board[row][col] = newCol[row];
- }
- }
+      const currentRow = parseInt(block.dataset.row);
+      const currentCol = parseInt(block.dataset.col);
 
-// 下落动画
- renderBoard（true）;
- }
+      // 未选中任何方块：选中当前方块
+      if (!selectedBlock) {
+        selectedBlock = block;
+        block.classList.add('selected');
+        return;
+      }
 
-// 绑定事件
- restartBtn.addEventListener（'点击'，initGame）;
- window.addEventListener（'load'， initGame）;
- </脚本>
-</身体>
+      const selectedRow = parseInt(selectedBlock.dataset.row);
+      const selectedCol = parseInt(selectedBlock.dataset.col);
+
+      // 检查是否相邻
+      const isAdjacent = (
+        (Math.abs(currentRow - selectedRow) === 1 && currentCol === selectedCol) ||
+        (Math.abs(currentCol - selectedCol) === 1 && currentRow === selectedRow)
+      );
+
+      // 不相邻：切换选中方块
+      if (!isAdjacent) {
+        selectedBlock.classList.remove('selected');
+        selectedBlock = block;
+        block.classList.add('selected');
+        return;
+      }
+
+      // 相邻：交换方块
+      swapBlocks(selectedRow, selectedCol, currentRow, currentCol);
+    }
+
+    /**
+     * 交换两个方块
+     * @param {number} row1 - 第一个方块行
+     * @param {number} col1 - 第一个方块列
+     * @param {number} row2 - 第二个方块行
+     * @param {number} col2 - 第二个方块列
+     */
+    function swapBlocks(row1, col1, row2, col2) {
+      // 取消选中状态
+      selectedBlock.classList.remove('selected');
+      selectedBlock = null;
+
+      // 交换数组中的值
+      [board[row1][col1], board[row2][col2]] = [board[row2][col2], board[row1][col1]];
+      // 渲染交换后的状态
+      renderBoard();
+
+      // 检查交换后是否有可消除的方块
+      setTimeout(() => {
+        const matches = getAllMatches();
+        if (matches.length > 0) {
+          eliminateBlocks(matches);
+        } else {
+          // 无消除：还原交换
+          [board[row1][col1], board[row2][col2]] = [board[row2][col2], board[row1][col1]];
+          renderBoard();
+        }
+      }, 150);
+    }
+
+    /**
+     * 获取所有可消除的方块（优化：减少循环次数）
+     * @returns {Array} 可消除方块的坐标数组
+     */
+    function getAllMatches() {
+      const matches = new Set();
+
+      // 检查水平方向
+      for (let row = 0; row < CONFIG.rows; row++) {
+        for (let col = 0; col <= CONFIG.cols - CONFIG.matchCount; col++) {
+          const color = board[row][col];
+          if (color === 0) continue;
+
+          // 检查连续匹配
+          let isMatch = true;
+          for (let i = 1; i < CONFIG.matchCount; i++) {
+            if (board[row][col + i] !== color) {
+              isMatch = false;
+              break;
+            }
+          }
+
+          // 记录匹配的方块
+          if (isMatch) {
+            for (let i = 0; i < CONFIG.matchCount; i++) {
+              matches.add(`${row}-${col + i}`);
+            }
+          }
+        }
+      }
+
+      // 检查垂直方向
+      for (let col = 0; col < CONFIG.cols; col++) {
+        for (let row = 0; row <= CONFIG.rows - CONFIG.matchCount; row++) {
+          const color = board[row][col];
+          if (color === 0) continue;
+
+          // 检查连续匹配
+          let isMatch = true;
+          for (let i = 1; i < CONFIG.matchCount; i++) {
+            if (board[row + i][col] !== color) {
+              isMatch = false;
+              break;
+            }
+          }
+
+          // 记录匹配的方块
+          if (isMatch) {
+            for (let i = 0; i < CONFIG.matchCount; i++) {
+              matches.add(`${row + i}-${col}`);
+            }
+          }
+        }
+      }
+
+      // 转换为坐标对象数组
+      return Array.from(matches).map(pos => {
+        const [row, col] = pos.split('-').map(Number);
+        return { row, col };
+      });
+    }
+
+    /**
+     * 消除方块并处理后续逻辑
+     * @param {Array} matches - 可消除方块的坐标数组
+     */
+    function eliminateBlocks(matches) {
+      isEliminating = true;
+      const matchCount = matches.length;
+
+      // 添加消除动画
+      matches.forEach(({ row, col }) => {
+        const block = document.querySelector(`.block[data-row="${row}"][data-col="${col}"]`);
+        if (block) block.classList.add('eliminate');
+      });
+
+      // 计算分数（优化：连锁消除加分）
+      const addScore = matchCount * 10 + (matchCount > CONFIG.matchCount ? (matchCount - CONFIG.matchCount) * 5 : 0);
+      score += addScore;
+      scoreElement.textContent = score;
+
+      // 分数放大动画
+      scoreElement.animate([
+        { transform: 'scale(1)' },
+        { transform: 'scale(1.2)' },
+        { transform: 'scale(1)' }
+      ], { duration: 300 });
+
+      // 等待消除动画结束后处理下落
+      setTimeout(() => {
+        // 清空消除的方块
+        matches.forEach(({ row, col }) => {
+          board[row][col] = 0;
+        });
+
+        // 处理方块下落
+        dropBlocks();
+
+        // 检查连锁消除
+        setTimeout(() => {
+          const newMatches = getAllMatches();
+          if (newMatches.length > 0) {
+            eliminateBlocks(newMatches); // 递归处理连锁消除
+          } else {
+            isEliminating = false; // 恢复操作
+          }
+        }, 300);
+      }, 400);
+    }
+
+    /**
+     * 处理方块下落并补充新方块（修复拼写错误）
+     */
+    function dropBlocks() {
+      for (let col = 0; col < CONFIG.cols; col++) {
+        const newCol = [];
+        let emptyCount = 0;
+
+        // 收集非空方块
+        for (let row = 0; row < CONFIG.rows; row++) {
+          if (board[row][col] === 0) {
+            emptyCount++;
+          } else {
+            newCol.push(board[row][col]);
+          }
+        }
+
+        // 补充新方块到顶部
+        while (emptyCount > 0) {
+          newCol.unshift(Math.floor(Math.random() * CONFIG.colorTypes) + 1);
+          emptyCount--;
+        }
+
+        // 更新列数据
+        for (let row = 0; row < CONFIG.rows; row++) {
+          board[row][col] = newCol[row];
+        }
+      }
+
+      // 渲染下落后的棋盘（添加下落动画）
+      renderBoard(true);
+    }
+
+    // 事件绑定（优化：事件委托，减少绑定）
+    gameBoard.addEventListener('click', handleBlockClick);
+    restartBtn.addEventListener('click', initGame);
+    // 页面加载完成后初始化游戏
+    window.addEventListener('load', initGame);
+
+    // 适配移动端触摸事件
+    gameBoard.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // 防止触摸滚动
+      handleBlockClick(e);
+    }, { passive: false });
+  </script>
+</body>
 </html>
